@@ -1,7 +1,6 @@
 import { Pool } from 'pg'
 
 let pool: Pool | null = null
-let schemaReady = false
 
 export function getPgPool() {
   if (!pool) {
@@ -21,7 +20,6 @@ export function getPgPool() {
 }
 
 export async function ensurePostgresSchema() {
-  if (schemaReady) return
   const db = getPgPool()
 
   await db.query(`
@@ -56,7 +54,43 @@ export async function ensurePostgresSchema() {
       featured BOOLEAN NOT NULL DEFAULT FALSE,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
+
+    CREATE TABLE IF NOT EXISTS meetup_requests (
+      id SERIAL PRIMARY KEY,
+      client_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      model_id INTEGER NOT NULL REFERENCES model_profiles(id) ON DELETE CASCADE,
+      message TEXT NOT NULL,
+      project_type TEXT NOT NULL,
+      budget TEXT,
+      preferred_date TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      response_message TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS reviews (
+      id SERIAL PRIMARY KEY,
+      reviewer_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      model_id INTEGER NOT NULL REFERENCES model_profiles(id) ON DELETE CASCADE,
+      meetup_id INTEGER,
+      rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+      comment TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS chat_messages (
+      id SERIAL PRIMARY KEY,
+      meetup_id INTEGER NOT NULL REFERENCES meetup_requests(id) ON DELETE CASCADE,
+      sender_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      message TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_model_profiles_user_id ON model_profiles(user_id);
+    CREATE INDEX IF NOT EXISTS idx_meetup_requests_client_id ON meetup_requests(client_id);
+    CREATE INDEX IF NOT EXISTS idx_meetup_requests_model_id ON meetup_requests(model_id);
+    CREATE INDEX IF NOT EXISTS idx_chat_messages_meetup_id ON chat_messages(meetup_id);
   `)
 
-  schemaReady = true
 }

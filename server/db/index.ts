@@ -78,8 +78,19 @@ function initializeSchema(db: ReturnType<typeof Database>) {
       FOREIGN KEY (model_id) REFERENCES model_profiles(id) ON DELETE CASCADE
     );
 
+    CREATE TABLE IF NOT EXISTS chat_messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      meetup_id INTEGER NOT NULL,
+      sender_id INTEGER NOT NULL,
+      message TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      FOREIGN KEY (meetup_id) REFERENCES meetup_requests(id) ON DELETE CASCADE,
+      FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
     CREATE INDEX IF NOT EXISTS idx_model_profiles_user_id ON model_profiles(user_id);
     CREATE INDEX IF NOT EXISTS idx_meetup_requests_client_id ON meetup_requests(client_id);
     CREATE INDEX IF NOT EXISTS idx_meetup_requests_model_id ON meetup_requests(model_id);
+    CREATE INDEX IF NOT EXISTS idx_chat_messages_meetup_id ON chat_messages(meetup_id);
   `)
 }
