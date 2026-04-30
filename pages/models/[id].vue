@@ -72,18 +72,18 @@
             <!-- CTA -->
             <template v-if="authStore.isAuthenticated && authStore.isClient">
               <button @click="showMeetupModal = true" class="btn-primary w-full flex items-center justify-center gap-2">
-                <Icon name="lucide:calendar-plus" class="w-4 h-4" />
-                Request Meetup
+                <Icon name="lucide:message-circle" class="w-4 h-4" />
+                Start Chat
               </button>
             </template>
             <template v-else-if="!authStore.isAuthenticated">
               <NuxtLink to="/login" class="btn-primary w-full flex items-center justify-center gap-2">
                 <Icon name="lucide:log-in" class="w-4 h-4" />
-                Sign In to Request
+                Sign In to Chat
               </NuxtLink>
             </template>
             <template v-else-if="authStore.isModel">
-              <p class="text-xs text-gray-500 mt-2">Models cannot request meetups with other models</p>
+              <p class="text-xs text-gray-500 mt-2">Only organizations can initiate chats</p>
             </template>
           </div>
 
@@ -198,7 +198,7 @@
     <Transition name="toast">
       <div v-if="successToast" class="fixed bottom-6 right-6 bg-green-500 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-2 z-50">
         <Icon name="lucide:check-circle" class="w-5 h-5" />
-        Meetup request sent!
+        Chat started!
       </div>
     </Transition>
   </div>
