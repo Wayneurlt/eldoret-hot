@@ -50,10 +50,10 @@
         </NuxtLink>
       </div>
 
-      <!-- Meetup Requests -->
+      <!-- Recent Chats -->
       <div class="card p-6">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="font-display font-bold text-xl text-white">Recent Meetup Requests</h2>
+          <h2 class="font-display font-bold text-xl text-white">Recent Chats</h2>
           <NuxtLink to="/meetups" class="text-brand-400 hover:text-brand-300 text-sm flex items-center gap-1">
             View All <Icon name="lucide:arrow-right" class="w-3.5 h-3.5" />
           </NuxtLink>
@@ -73,7 +73,7 @@
               <p class="text-white text-sm font-medium truncate">
                 {{ authStore.isModel ? meetup.client_name : meetup.model_name }}
               </p>
-              <p class="text-gray-400 text-xs truncate">{{ meetup.project_type }}</p>
+              <p class="text-gray-400 text-xs truncate">{{ meetup.message }}</p>
             </div>
             <div class="text-right flex-shrink-0">
               <StatusBadge :status="meetup.status" />
@@ -83,8 +83,8 @@
         </div>
 
         <div v-else class="text-center py-10">
-          <Icon name="lucide:calendar-x" class="w-10 h-10 text-gray-700 mx-auto mb-3" />
-          <p class="text-gray-400 text-sm">No meetup requests yet</p>
+          <Icon name="lucide:message-circle-x" class="w-10 h-10 text-gray-700 mx-auto mb-3" />
+          <p class="text-gray-400 text-sm">No chats yet</p>
           <NuxtLink v-if="authStore.isClient" to="/models" class="btn-primary inline-flex mt-4 text-sm items-center gap-2">
             <Icon name="lucide:search" class="w-4 h-4" />
             Browse Models
@@ -126,16 +126,16 @@ const acceptedMeetups = computed(() => recentMeetups.value.filter(m => m.status 
 const stats = computed(() => {
   if (authStore.isModel) {
     return [
-      { label: 'Pending Requests', value: pendingMeetups.value, icon: 'lucide:clock', iconBg: 'bg-yellow-500/10', iconColor: 'text-yellow-400', badge: pendingMeetups.value > 0 ? 'New' : '' },
+      { label: 'Pending Chats', value: pendingMeetups.value, icon: 'lucide:clock', iconBg: 'bg-yellow-500/10', iconColor: 'text-yellow-400', badge: pendingMeetups.value > 0 ? 'New' : '' },
       { label: 'Accepted', value: acceptedMeetups.value, icon: 'lucide:check-circle', iconBg: 'bg-green-500/10', iconColor: 'text-green-400', badge: '' },
-      { label: 'Total Requests', value: recentMeetups.value.length, icon: 'lucide:calendar', iconBg: 'bg-brand-500/10', iconColor: 'text-brand-400', badge: '' },
+      { label: 'Total Chats', value: recentMeetups.value.length, icon: 'lucide:message-square', iconBg: 'bg-brand-500/10', iconColor: 'text-brand-400', badge: '' },
       { label: 'Profile Views', value: '—', icon: 'lucide:eye', iconBg: 'bg-blue-500/10', iconColor: 'text-blue-400', badge: '' },
     ]
   }
   return [
-    { label: 'Requests Sent', value: recentMeetups.value.length, icon: 'lucide:send', iconBg: 'bg-brand-500/10', iconColor: 'text-brand-400', badge: '' },
+    { label: 'Chats Started', value: recentMeetups.value.length, icon: 'lucide:send', iconBg: 'bg-brand-500/10', iconColor: 'text-brand-400', badge: '' },
     { label: 'Accepted', value: acceptedMeetups.value, icon: 'lucide:check-circle', iconBg: 'bg-green-500/10', iconColor: 'text-green-400', badge: '' },
-    { label: 'Pending', value: pendingMeetups.value, icon: 'lucide:clock', iconBg: 'bg-yellow-500/10', iconColor: 'text-yellow-400', badge: pendingMeetups.value > 0 ? 'Active' : '' },
+    { label: 'Open Chats', value: pendingMeetups.value, icon: 'lucide:clock', iconBg: 'bg-yellow-500/10', iconColor: 'text-yellow-400', badge: pendingMeetups.value > 0 ? 'Active' : '' },
     { label: 'Models Explored', value: '—', icon: 'lucide:search', iconBg: 'bg-purple-500/10', iconColor: 'text-purple-400', badge: '' },
   ]
 })

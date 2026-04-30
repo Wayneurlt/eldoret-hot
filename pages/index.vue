@@ -380,7 +380,7 @@ function openSpotlight(model: any) {
 const stats = [
   { value: '500+', label: 'Active Models' },
   { value: '200+', label: 'Brands' },
-  { value: '1,200+', label: 'Successful Meetups' },
+  { value: '1,200+', label: 'Successful Chats' },
   { value: '98%', label: 'Satisfaction Rate' },
 ]
 
@@ -398,7 +398,7 @@ const steps = [
   {
     icon: 'lucide:handshake',
     title: 'Meet & Collaborate',
-    description: 'Send a meetup request, discuss the project, agree on terms, and start creating together.',
+    description: 'Start a chat, discuss the project, agree on terms, and start creating together.',
   },
 ]
 
