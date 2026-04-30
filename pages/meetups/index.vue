@@ -185,15 +185,12 @@
                   class="input-field flex-1 resize-none"
                   @keydown="onMessageKeydown"
                 ></textarea>
-                <button type="submit" :disabled="sendingMessage || !newMessage.trim() || selectedMeetup?.status === 'rejected' || selectedMeetup?.status === 'completed'" class="btn-primary px-4 flex items-center gap-2">
+                <button type="submit" :disabled="sendingMessage || !newMessage.trim()" class="btn-primary px-4 flex items-center gap-2">
                   <Icon v-if="sendingMessage" name="lucide:loader-2" class="w-4 h-4 animate-spin" />
                   Send
                 </button>
               </div>
               <p v-if="sendError" class="text-xs text-red-300 mt-2">{{ sendError }}</p>
-              <p v-if="selectedMeetup?.status === 'rejected' || selectedMeetup?.status === 'completed'" class="text-xs text-yellow-300 mt-2">
-                Chat is closed and cannot receive new messages.
-              </p>
             </form>
           </div>
         </div>

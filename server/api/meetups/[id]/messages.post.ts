@@ -19,10 +19,6 @@ export default defineEventHandler(async (event) => {
     const chatRes = await db.query('SELECT * FROM meetup_requests WHERE id = $1', [id])
     const chat = chatRes.rows[0] as any
     if (!chat) throw createError({ statusCode: 404, message: 'Chat not found' })
-    if (chat.status === 'rejected' || chat.status === 'completed') {
-      throw createError({ statusCode: 400, message: 'Chat is closed' })
-    }
-
     const isClient = Number(chat.client_id) === Number(payload.userId)
     const modelOwned =
       !!(await db.query('SELECT id FROM model_profiles WHERE id = $1 AND user_id = $2', [chat.model_id, Number(payload.userId)])).rows.length
@@ -56,10 +52,6 @@ export default defineEventHandler(async (event) => {
   const db = getDb()
   const chat = db.prepare('SELECT * FROM meetup_requests WHERE id = ?').get(id) as any
   if (!chat) throw createError({ statusCode: 404, message: 'Chat not found' })
-  if (chat.status === 'rejected' || chat.status === 'completed') {
-    throw createError({ statusCode: 400, message: 'Chat is closed' })
-  }
-
   const modelOwned = db.prepare('SELECT id FROM model_profiles WHERE id = ? AND user_id = ?').get(chat.model_id, payload.userId as number)
   const isClient = chat.client_id === payload.userId
   if (!isClient && !modelOwned) throw createError({ statusCode: 403, message: 'Forbidden' })
