@@ -76,7 +76,7 @@
               </div>
 
               <div class="mt-auto flex gap-3">
-                <NuxtLink to="/register?role=client" class="btn-primary flex-1 text-center">Request Meetup</NuxtLink>
+                <NuxtLink to="/register?role=client" class="btn-primary flex-1 text-center">Start Chat</NuxtLink>
                 <NuxtLink to="/models" class="btn-secondary flex-1 text-center">Browse More</NuxtLink>
               </div>
             </div>

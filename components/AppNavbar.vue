@@ -11,7 +11,7 @@
           <NuxtLink to="/models" class="link" :class="isActive('/models') && 'link-active'">Models</NuxtLink>
           <NuxtLink v-if="authStore.isAuthenticated" to="/dashboard" class="link" :class="isActive('/dashboard') && 'link-active'">Dashboard</NuxtLink>
           <NuxtLink v-if="authStore.isAuthenticated" to="/meetups" class="link relative" :class="isActive('/meetups') && 'link-active'">
-            Meetups
+            Chats
             <span v-if="pendingCount > 0" class="badge-dot">{{ pendingCount }}</span>
           </NuxtLink>
         </div>
@@ -39,7 +39,7 @@
                 <div v-if="dropdownOpen" class="menu">
                   <NuxtLink to="/dashboard" @click="dropdownOpen = false" class="menu-row">Dashboard</NuxtLink>
                   <NuxtLink to="/dashboard/profile" @click="dropdownOpen = false" class="menu-row">Edit Profile</NuxtLink>
-                  <NuxtLink to="/meetups" @click="dropdownOpen = false" class="menu-row">My Meetups</NuxtLink>
+                  <NuxtLink to="/meetups" @click="dropdownOpen = false" class="menu-row">My Chats</NuxtLink>
                   <button @click="handleLogout" class="menu-row text-red-300 hover:text-red-200">Sign Out</button>
                 </div>
               </Transition>
@@ -66,7 +66,7 @@
           <NuxtLink to="/models" @click="mobileOpen = false" class="mobile-link">Browse Models</NuxtLink>
           <template v-if="authStore.isAuthenticated">
             <NuxtLink to="/dashboard" @click="mobileOpen = false" class="mobile-link">Dashboard</NuxtLink>
-            <NuxtLink to="/meetups" @click="mobileOpen = false" class="mobile-link">Meetups</NuxtLink>
+            <NuxtLink to="/meetups" @click="mobileOpen = false" class="mobile-link">Chats</NuxtLink>
             <NuxtLink to="/dashboard/profile" @click="mobileOpen = false" class="mobile-link">Edit Profile</NuxtLink>
             <button @click="handleLogout" class="mobile-link text-red-300">Sign Out</button>
           </template>
